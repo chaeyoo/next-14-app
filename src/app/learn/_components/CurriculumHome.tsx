@@ -47,15 +47,17 @@ export const CurriculumHome = ({
           </h1>
           <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/80">
             RAG · Agentic Workflow · Function Calling · Subagent · MCP부터
-            FastAPI · FastMCP · PydanticAI · LangChain/LangGraph, 그리고 FDE의
-            일하는 방식까지. 개념을 익히고 바로 퀴즈로 점검하세요.
+            FastAPI · FastMCP · PydanticAI · LangChain/LangGraph, 그리고
+            프롬프트 엔지니어링 · Evals · 가드레일 · 현장 디스커버리 ·
+            프로덕션 운영까지 — FDE에게 필요한 개념을 익히고 바로 퀴즈로
+            점검하세요.
           </p>
 
           {/* 진도 요약 */}
           <div className="mt-6 grid grid-cols-3 gap-3">
             <Stat label="학습 진도" value={`${learnedPct}%`} sub={`${learnedCount}/${LESSONS.length} 레슨`} />
             <Stat label="획득 점수" value={`${totalBest}`} sub={`총 ${TOTAL_QUIZ_COUNT}문항`} />
-            <Stat label="레슨 수" value={`${LESSONS.length}`} sub="3개 트랙" />
+            <Stat label="레슨 수" value={`${LESSONS.length}`} sub={`${CATEGORIES.length}개 트랙`} />
           </div>
 
           <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-white/20">

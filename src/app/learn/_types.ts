@@ -28,7 +28,7 @@ export type Lesson = {
   quiz: QuizQuestion[];
 };
 
-export type CategoryId = "core" | "frameworks" | "practice";
+export type CategoryId = "core" | "frameworks" | "practice" | "fde-craft";
 
 export type Category = {
   id: CategoryId;
