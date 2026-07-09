@@ -19,11 +19,12 @@ learn/
     └── Quiz.tsx              # 재사용 퀴즈(즉시 채점·해설·결과)
 ```
 
-## 콘텐츠 트랙 (3개)
+## 콘텐츠 트랙 (4개)
 
 1. **핵심 개념**: RAG 최적화 · Function Calling · Agentic Workflow · Subagent · MCP
 2. **프레임워크·도구**: FastAPI · FastMCP · PydanticAI · LangChain/LangGraph
 3. **실무·방법론**: Enterprise LLM API & ML/DL 기초 · AI 개발도구 · FDE 정체성
+4. **FDE 실전 역량**: 프롬프트·컨텍스트 엔지니어링 · LLM 평가(Evals)·관측성 · 가드레일·AI 안전 · 현장 디스커버리·워크플로우 분석 · PoC→프로덕션
 
 ## 콘텐츠 추가/수정
 
