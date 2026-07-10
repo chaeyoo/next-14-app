@@ -2,17 +2,21 @@
 
 import { useMemo, useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import type { Lesson, QuizQuestion } from "./_types";
+import type { Article, Lesson, QuizQuestion } from "./_types";
 import { LESSONS } from "./_constants/curriculum";
+import { ARTICLES, ARTICLE_EXAM_ID } from "./_constants/articles";
 import { useProgress } from "./_hooks/useProgress";
 import { CurriculumHome } from "./_components/CurriculumHome";
 import { LessonView } from "./_components/LessonView";
+import { ArticleView } from "./_components/ArticleView";
 import { Quiz } from "./_components/Quiz";
 
 type View =
   | { kind: "home" }
   | { kind: "lesson"; lesson: Lesson }
-  | { kind: "final"; questions: QuizQuestion[] };
+  | { kind: "article"; article: Article }
+  | { kind: "final"; questions: QuizQuestion[] }
+  | { kind: "articleExam"; questions: QuizQuestion[] };
 
 const FINAL_EXAM_SIZE = 10;
 
@@ -35,10 +39,20 @@ export default function LearnPage() {
     [],
   );
 
+  const allArticlesRead = ARTICLES.every((a) => progress.learned[a.id]);
+
   const startFinalExam = () => {
     setView({
       kind: "final",
       questions: pickRandom(allQuestions, Math.min(FINAL_EXAM_SIZE, allQuestions.length)),
+    });
+  };
+
+  // 아티클 종합 퀴즈: 15편 각각에서 1문항씩 무작위 출제 → 전 주제를 고르게 검증
+  const startArticleExam = () => {
+    setView({
+      kind: "articleExam",
+      questions: ARTICLES.map((a) => pickRandom(a.quiz, 1)[0]),
     });
   };
 
@@ -62,6 +76,8 @@ export default function LearnPage() {
             progress={progress}
             onSelectLesson={(lesson) => setView({ kind: "lesson", lesson })}
             onStartFinalExam={startFinalExam}
+            onSelectArticle={(article) => setView({ kind: "article", article })}
+            onStartArticleExam={startArticleExam}
             onReset={reset}
           />
         ) : view.kind === "lesson" ? (
@@ -73,7 +89,17 @@ export default function LearnPage() {
             onLearned={markLearned}
             onScore={recordScore}
           />
-        ) : (
+        ) : view.kind === "article" ? (
+          <ArticleView
+            article={view.article}
+            read={!!progress.learned[view.article.id]}
+            allRead={allArticlesRead}
+            onBack={() => setView({ kind: "home" })}
+            onRead={markLearned}
+            onNavigate={(article) => setView({ kind: "article", article })}
+            onStartExam={startArticleExam}
+          />
+        ) : view.kind === "final" ? (
           <div className="mx-auto max-w-3xl">
             <button
               onClick={() => setView({ kind: "home" })}
@@ -91,6 +117,28 @@ export default function LearnPage() {
             <Quiz
               title="최종 종합 퀴즈"
               questions={view.questions}
+              onExit={() => setView({ kind: "home" })}
+            />
+          </div>
+        ) : (
+          <div className="mx-auto max-w-3xl">
+            <button
+              onClick={() => setView({ kind: "home" })}
+              className="mb-6 inline-flex items-center gap-1.5 text-sm text-white/50 transition hover:text-white"
+            >
+              <ArrowLeft size={16} /> 커리큘럼
+            </button>
+            <div className="mb-6 rounded-2xl border border-indigo-400/20 bg-indigo-400/[0.06] p-5">
+              <h1 className="text-xl font-black text-white">📚 아티클 종합 퀴즈</h1>
+              <p className="mt-1 text-sm text-white/60">
+                심화 아티클 {ARTICLES.length}편에서 한 문항씩 무작위 출제된{" "}
+                {view.questions.length}문항. 70% 이상이면 통과!
+              </p>
+            </div>
+            <Quiz
+              title="아티클 종합 퀴즈"
+              questions={view.questions}
+              onComplete={(score) => recordScore(ARTICLE_EXAM_ID, score)}
               onExit={() => setView({ kind: "home" })}
             />
           </div>
