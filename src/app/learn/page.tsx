@@ -6,6 +6,7 @@ import type { Article, Lesson, QuizQuestion } from "./_types";
 import { LESSONS } from "./_constants/curriculum";
 import { ARTICLES, ARTICLE_EXAM_ID } from "./_constants/articles";
 import { useProgress } from "./_hooks/useProgress";
+import { SiteNav } from "@/components/common/SiteNav";
 import { CurriculumHome } from "./_components/CurriculumHome";
 import { LessonView } from "./_components/LessonView";
 import { ArticleView } from "./_components/ArticleView";
@@ -58,6 +59,8 @@ export default function LearnPage() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
+      <SiteNav />
+
       {/* 은은한 배경 그라디언트 */}
       <div className="pointer-events-none fixed inset-0 opacity-60">
         <div className="absolute -top-40 left-1/4 h-96 w-96 rounded-full bg-violet-600/20 blur-3xl" />

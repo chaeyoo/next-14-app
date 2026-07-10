@@ -10,6 +10,7 @@ import { ScrollProgress } from "./_components/ScrollProgress";
 import { ClickSparkle } from "./_components/ClickSparkle";
 import { MouseTrail } from "./_components/MouseTrail";
 import { RETROSPECT_QUESTIONS } from "./_constants/questions";
+import { SiteNav } from "@/components/common/SiteNav";
 
 export default function Retrospect2025Page() {
   return (
@@ -25,6 +26,8 @@ export default function Retrospect2025Page() {
 
       {/* 스크롤 컨테이너 */}
       <div className="relative z-10">
+        <SiteNav />
+
         {/* Hero 섹션 - 글리치 + 타이핑 + 마그네틱 */}
         <HeroSection />
 
