@@ -2,18 +2,21 @@
 
 import { CheckCircle2, Circle, Clock, GraduationCap, Sparkles, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { Lesson, Progress } from "../_types";
+import type { Article, Lesson, Progress } from "../_types";
 import {
   CATEGORIES,
   LESSONS,
   TOTAL_QUIZ_COUNT,
   getLessonsByCategory,
 } from "../_constants/curriculum";
+import { ArticlesShelf } from "./ArticlesShelf";
 
 type Props = {
   progress: Progress;
   onSelectLesson: (lesson: Lesson) => void;
   onStartFinalExam: () => void;
+  onSelectArticle: (article: Article) => void;
+  onStartArticleExam: () => void;
   onReset: () => void;
 };
 
@@ -21,6 +24,8 @@ export const CurriculumHome = ({
   progress,
   onSelectLesson,
   onStartFinalExam,
+  onSelectArticle,
+  onStartArticleExam,
   onReset,
 }: Props) => {
   const learnedCount = LESSONS.filter((l) => progress.learned[l.id]).length;
@@ -131,16 +136,23 @@ export const CurriculumHome = ({
             </button>
           </div>
         </div>
-
-        <div className="mt-6 text-center">
-          <button
-            onClick={onReset}
-            className="text-xs text-white/30 transition hover:text-white/60"
-          >
-            학습 기록 초기화
-          </button>
-        </div>
       </section>
+
+      {/* 심화 아티클 서가 */}
+      <ArticlesShelf
+        progress={progress}
+        onSelectArticle={onSelectArticle}
+        onStartExam={onStartArticleExam}
+      />
+
+      <div className="mt-6 text-center">
+        <button
+          onClick={onReset}
+          className="text-xs text-white/30 transition hover:text-white/60"
+        >
+          학습 기록 초기화
+        </button>
+      </div>
     </div>
   );
 };
@@ -169,12 +181,12 @@ const LessonCard = ({
   return (
     <button
       onClick={onClick}
-      className="group flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-left transition hover:border-white/25 hover:bg-white/[0.06]"
+      className="group flex min-w-0 items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-left transition hover:border-white/25 hover:bg-white/[0.06]"
     >
       <span className="text-2xl">{lesson.emoji}</span>
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
-          <h3 className="truncate font-bold text-white">{lesson.title}</h3>
+          <h3 className="min-w-0 truncate font-bold text-white">{lesson.title}</h3>
           {learned ? (
             <CheckCircle2
               size={15}
